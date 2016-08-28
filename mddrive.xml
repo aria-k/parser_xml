@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="windows-1251" standalone="no" ?>
+<system fileversion="4752" goodconfig="true" name="Test" schemaversion="3.0.0.1">
+
+  <point name="mdDrive3" pointcode="50102">
+    <template name="TemplateRoot">
+      <templatesettings/>
+      <workers>
+        <worker parent="" name="Root"/>
+      </workers>
+      <settings metaref="Root"/>
+      <template name="TraceSystemTemplate">
+        <templatesettings>
+          <param name="templateprogid" type="string" value="VAS_TraceSystem.TraceSystemTemplate"/>
+          <param name="workerprogid" type="string" value="VAS_TraceSystem.TraceSystemWorker"/>
+        </templatesettings>
+        <workers>
+          <worker name="TraceSystem" parent="/Root"/>
+        </workers>
+        <settings metaref="TraceSystem">
+          <param elementtype="composite" name="Files" type="vector">
+            <element>
+              <param name="Filename" type="string" value="50102_Critical_20%y%m%d_"/>
+              <param name="Format" type="string" value="Binary"/>
+              <param name="RotateSize" type="integer" value="10485760"/>
+              <param elementtype="composite" name="Rules" type="vector">
+                <element>
+                  <param elementtype="composite" name="Filter" type="vector">
+                    <element>
+                      <param name="ConditionType" type="string" value="SeverityLevel"/>
+                      <param name="MinSeverity" type="integer" value="3"/>
+                    </element>
+                    <element>
+                      <param name="ConditionType" type="string" value="MessageText"/>
+                      <param name="Operation" type="string" value="!contains"/>
+                      <param name="Type" type="string" value="String"/>
+                      <param name="Arg" type="string" value="An existing connection was forcibly closed by the remote host"/>
+                    </element>
+                  </param>
+                  <param name="Action" type="composite">
+                    <param name="ActionType" type="string" value="ToLog"/>
+                  </param>
+                </element>
+              </param>
+            </element>
+            <element>
+              <param name="Filename" type="string" value="50102_FullLog_20%y%m%d_"/>
+              <param name="Format" type="string" value="Binary"/>
+              <param name="RotateSize" type="integer" value="10485760"/>
+              <param elementtype="composite" name="Rules" type="vector">
+                <element>
+                  <param elementtype="composite" name="Filter" type="vector">
+                    <element>
+                      <param name="ConditionType" type="string" value="SeverityLevel"/>
+                      <param name="MinSeverity" type="integer" value="5"/>
+                    </element>
+                  </param>
+                  <param name="Action" type="composite">
+                    <param name="ActionType" type="string" value="ToLog"/>
+                  </param>
+                </element>
+              </param>
+            </element>
+          </param>
+        </settings>
+      </template>
+      <template name="MTP">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="6F660BA5-35EF-41A6-A142-8BC6B3CB03F8"/>
+        </templatesettings>
+        <workers>
+          <worker name="MTP" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="LinksetSMP">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="C721B0B4-0F3B-4FE7-AFA0-AE7C9FE94D0F"/>
+        </templatesettings>
+        <workers>
+          <worker name="LinksetSMP" parent="/Root"/>
+        </workers>
+        <settings metaref="VAS_TCPLinkset">
+          <param name="IsTCPServer" type="boolean" value="false"/>
+          <param name="TCPPort" type="string" value="31016"/>
+          <param name="TCPAddress" type="string" value="172.26.254.66"/>
+          <param name="LocalPC" type="integer" value="50102"/>
+          <param name="AdjPC" type="integer" value="100"/>
+          <param name="NetwInd" type="integer" value="3"/>
+          <param elementtype="composite" name="TransferCongestionLevelBytes" type="vector">
+            <element>
+              <param name="Level" type="integer" value="1"/>
+              <param name="Onset" type="integer" value="5242890"/>
+              <param name="Abate" type="integer" value="1048586"/>
+            </element>
+          </param>
+        </settings>
+      </template>
+      <template name="TemplateSCCP">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="E2F0A45D-DF82-4BDB-B346-B5B088574FFC"/>
+          <param name="workerclsid" type="uuid" value="DD3B501C-850A-44EE-B2C0-9DF9305FEC09"/>
+        </templatesettings>
+        <workers>
+          <worker name="SCCP" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="TemplateTCAP">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="E3D26B59-89B4-4FD5-8292-389D5A90420C"/>
+          <param name="workerclsid" type="uuid" value="FFFCF741-1AB1-4CC5-8630-BD5A9975BAC6"/>
+        </templatesettings>
+        <workers>
+          <worker name="TCAP" parent="/Root"/>
+        </workers>
+        <settings metaref="TCAP">
+          <param name="InitialPoolSize" type="integer" value="3"/>
+          <param name="DialogTimeout_Abort" type="integer" value="3600"/>
+        </settings>
+      </template>
+      <template name="TemplateINAP">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="BCB0893F-2384-4A07-A3E1-BD05C16D76B4"/>
+          <param name="workerclsid" type="uuid" value="53510FEF-ECFA-46DA-AF03-36004BBF002D"/>
+        </templatesettings>
+        <workers>
+          <worker name="INAP" parent="/Root"/>
+        </workers>
+        <settings metaref="INAP"/>
+      </template>
+      <template name="TemplateExecutorDispatcherSE">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="E48E3F4D-B65D-4E6D-B365-7BBF9F6772E5"/>
+        </templatesettings>
+        <workers>
+          <worker name="ExecutorDispatcherSE" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="TemplateSDPClient">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="1A91F0EF-ACFC-42FA-BEFD-CC374D6A3D19"/>
+        </templatesettings>
+        <workers>
+          <worker name="SDPClient" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="StatisticAgent">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="7FE6BFB0-3A58-11D6-8770-0050DA482CAD"/>
+          <param name="workerclsid" type="uuid" value="7FE6BFA7-3A58-11D6-8770-0050DA482CAD"/>
+        </templatesettings>
+        <workers>
+          <worker name="StatisticAgent" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="SMFAgent">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="A5FCB8FE-ECD3-4EDD-913D-01DADAB19F6E"/>
+          <param name="workerclsid" type="uuid" value="381690A3-5368-44CD-9239-D2856FE2443F"/>
+        </templatesettings>
+        <workers>
+          <worker name="SMFAgent" parent="/Root"/>
+        </workers>
+        <settings metaref="SMFAgent">
+          <param name="LocalAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="50102"/>
+            <param name="SSN" type="integer" value="90"/>
+          </param>
+          <param name="send_config" type="boolean" value="true"/>
+          <param name="SmfAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="100"/>
+            <param name="SSN" type="integer" value="91"/>
+            <param name="NI" type="integer" value="3"/>
+          </param>
+        </settings>
+      </template>
+      <template name="TemplateAlarmAgent">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="BF09CC3F-3B26-4EC3-8534-D4FD2C5DF5CC"/>
+          <param name="workerclsid" type="uuid" value="5E9AC865-7775-4D50-B7EF-63D3DE08707D"/>
+        </templatesettings>
+        <workers>
+          <worker name="AlarmAgent" parent="/Root"/>
+        </workers>
+        <settings metaref="AlarmAgent">
+          <param name="AlarmManagerAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="100"/>
+            <param name="Locator" type="string" value="/Root/AlarmManager"/>
+            <param name="SSN" type="integer" value="51"/>
+          </param>
+          <param name="LocalAddress" type="composite"/>
+          <param name="ALARM_SEND_PERIOD" type="integer" value="1000"/>
+          <param name="MAX_CACHED_ALARMS_COUNT" type="integer" value="1000"/>
+        </settings>
+      </template>
+      <template name="TemplateRemoteMessaging">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="20153D22-8245-4661-9CFB-ED67CB1DCF67"/>
+          <param name="workerclsid" type="uuid" value="EC492FD5-E623-464F-9F70-2A91A78BBCAC"/>
+        </templatesettings>
+        <workers>
+          <worker name="RemoteMessaging" parent="/Root"/>
+        </workers>
+        <settings metaref="RemoteMessaging">
+          <param name="MESSAGING_SSN" type="integer" value="1234"/>
+        </settings>
+      </template>
+      <template name="ProcedureLauncher">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="3BB47BB4-F46E-454F-902A-E838B10F9CDF"/>
+          <param name="workerclsid" type="uuid" value="CE6561DE-ACB3-4BD4-A2E0-06A11731239B"/>
+        </templatesettings>
+        <workers>
+          <worker name="ProcedureLauncher" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="TemplateScheduler">
+        <templatesettings>
+          <param name="templateclsid" type="uuid" value="15E42A98-317F-4601-875A-D7FCC4DD9296"/>
+          <param name="workerclsid" type="uuid" value="227344CE-30B5-4326-8A4C-C61997680861"/>
+        </templatesettings>
+        <workers>
+          <worker name="Scheduler" parent="/Root"/>
+        </workers>
+        <settings metaref="Scheduler">
+          <param name="schedules" type="composite"/>
+        </settings>
+      </template>
+      <template name="EDScriptTemplate">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="E48E3F4D-B65D-4E6D-B365-7BBF9F6772E5"/>
+        </templatesettings>
+        <workers>
+          <worker name="EDScriptTemplate" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="SendCommand">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="95D3133E-E92E-4F40-BE4D-CB6ADC7E1473"/>
+        </templatesettings>
+        <workers>
+          <worker name="SendCommand" parent="/Root"/>
+        </workers>
+        <settings metaref="VAS_CC2SDP">
+          <param name="LocalAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="50102"/>
+            <param name="SSN" type="integer" value="432"/>
+            <param name="NI" type="integer" value="3"/>
+          </param>
+          <param name="SDPAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="50102"/>
+            <param name="SSN" type="integer" value="310"/>
+            <param name="NI" type="integer" value="3"/>
+          </param>
+          <param name="MP2RSConverters" type="composite">
+            <param name="2" type="composite">
+              <param name="CLSID" type="uuid" value="30F0CED2-E4A0-40CF-ACB0-2AF0BB48CA9F"/>
+              <param name="SETTINGS" type="composite"/>
+            </param>
+            <param name="1" type="composite">
+              <param name="CLSID" type="uuid" value="3B26942F-FF13-451D-8A73-49AB775E2F2A"/>
+              <param name="SETTINGS" type="composite"/>
+            </param>
+            <param name="0" type="composite">
+              <param name="CLSID" type="uuid" value="46DD3575-A324-4D9B-91E2-6B19C352A221"/>
+              <param name="SETTINGS" type="composite"/>
+            </param>
+          </param>
+          <param name="RS2MPConverter" type="composite">
+            <param name="CLSID" type="uuid" value="4D97F6B0-0B8D-4F34-B541-50686460F7D4"/>
+            <param name="SETTINGS" type="composite"/>
+          </param>
+        </settings>
+      </template>
+      <template name="ExecutorDispatcherIP">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="E48E3F4D-B65D-4E6D-B365-7BBF9F6772E5"/>
+        </templatesettings>
+        <workers>
+          <worker name="ExecutorDispatcherIP" parent="/Root"/>
+        </workers>
+      </template>
+      <template name="TemplateMDLinkServer">
+        <templatesettings>
+          <param name="workerclsid" type="uuid" value="7686AE5A-E256-48AA-B16F-CCEE1A62FAF1"/>
+        </templatesettings>
+        <workers>
+          <worker name="MDLinkServer" parent="/Root"/>
+        </workers>
+        <settings metaref="mdLinkServer">
+          <param name="LocalAddress" type="composite">
+            <param name="RI" type="integer" value="1"/>
+            <param name="PC" type="integer" value="50102"/>
+            <param name="SSN" type="integer" value="12"/>
+            <param name="NI" type="integer" value="3"/>
+          </param>
+          <param name="SDPSubsystems" type="composite">
+            <param name="mdDrive" type="composite">
+              <param name="Address" type="composite">
+                <param name="RI" type="integer" value="1"/>
+                <param name="PC" type="integer" value="50102"/>
+                <param name="SSN" type="integer" value="310"/>
+                <param name="NI" type="integer" value="3"/>
+              </param>
+              <param elementtype="string" name="Resources" type="vector"/>
+            </param>
+          </param>
+          <param name="ParamQuotationChar" type="string" value=""/>
+        </settings>
+      </template>
+    </template>
+  </point>
+
+</system>
